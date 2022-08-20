@@ -1,0 +1,302 @@
+%%%%%% bibliography
+
+\documentclass[11pt]{article}
+
+\usepackage{apacite} 
+
+\usepackage{longtable} 
+
+\usepackage{adjustbox} 
+
+%\usepackage{chngcntr}
+%\counterwithin{table}{section}
+%\counterwithin{figure}{section}
+
+
+\title{This is my work in R}
+\author{
+        MyFirstName MyLastName\\
+        ThisIs mySchoolProgramName\\
+        ThisIs UniversityName\\
+        City, ZipCope, \underline{Country}\\
+        \texttt{username@the.rest}
+}
+\date{\today}
+
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\maketitle 
+
+\begin{abstract}
+This is an example of an abstract in a paper. This is an example of an abstract in a paper. This is an example of an abstract in a paper. This is an example of an abstract in a paper.This is an example of an abstract in a paper.This is an example of an abstract in a paper.This is an example of an abstract in a paper.
+
+\end{abstract}
+
+
+\section{Introduction}\label{intro}  
+
+This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex. This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex. This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex. This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex.
+
+This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex.
+
+
+\section{Exploring Data}\label{explo}
+
+
+Sections may use a label\footnote{This is a foornote.}. This label is needed for referencing. For example the next section has label \emph{datas}, so you can reference it by writing: As we see in section \ref{catexplo}.
+
+
+
+
+<<libraries, echo=FALSE>>=
+
+library(stargazer)
+@
+
+
+<<collecting, echo=FALSE>>=
+# collecting
+fileLink=file.path('DataFiles','mergedData.RDS')
+mergedData=readRDS(fileLink)
+
+@
+
+\subsection{Exploring Categorical Data}\label{catexplo}
+
+Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+
+I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+
+You can see the statistics of a categorical variable in Table \ref{catexplore_table}.
+
+<<freq_table,results=tex,echo=FALSE>>=
+library(summarytools)
+library(tidyr)
+library(knitr)
+library(kableExtra)
+
+freq(mergedData[, 9], 
+     plain.ascii = FALSE,
+     report.nas=FALSE)%>%tb() %>%
+  kable(format = "latex", digits = 2,
+        caption = "This is a table\\label{catexplore_table}",col.names = c("Democracy Index","count","pct","pct_cumm"))%>%
+  kable_styling(full_width = F)
+@
+
+
+
+
+
+%%%%%%
+
+You can see this variable plotted in Figure \ref{cat_barplot} on page \pageref{cat_barplot}.
+
+
+<<prepare_cat_plot, echo=FALSE>>=
+tablePFI=as.data.frame(table(mergedData$PressFreedomIndex_or))
+names(tablePFI)=c("var","count")
+
+##
+library(ggplot2)
+base=ggplot(data=tablePFI,aes(x=var,y=count))
+bar1=base + geom_bar(stat = 'identity')
+bar1=bar1+labs(x="Press Freedom")
+@
+
+
+\begin{figure}[h]
+\centering
+\begin{adjustbox}{width=7cm,height=5cm}
+<<cat_barplot, echo=FALSE, fig=TRUE>>=
+bar1
+@
+\end{adjustbox}
+\caption{Press Freedom Index in the World}  %title
+\label{cat_barplot} % for \ref{}
+\end{figure}
+
+
+
+
+
+\subsection{Exploring Numerical Data}\label{numexplo}
+
+Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+
+Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+
+<<summaryNumeric, results=tex, echo=FALSE>>=
+library(stargazer)
+stargazer(mergedData[,c("DemocracyIndex","mili_pctGDP")],
+          title = "Stat summary for nummeric vars", 
+          label = "summaryNumeric",
+          font.size = 'footnotesize',
+          digits = 2,
+          summary.stat = c("n","mean",'sd',"min",'p25','p75','max'))
+@
+
+In the Table \ref{summaryNumeric}, you realize that the mean of military expenditure is {\bf\Sexpr{mean(mergedData$mili_pctGDP)}}.
+
+It would be good to see a boxplot, check Figure \ref{num_plot} below.
+
+<<prepare_num_plot, echo=FALSE>>=
+base=ggplot(data=mergedData)
+box = base + geom_boxplot(aes(y=mili_pctGDP)) 
+box = box + labs(x="", y = "% of country GDP")
+box=box + theme(axis.text.x = element_blank(),
+                axis.ticks.x = element_blank())
+@
+
+
+\begin{figure}[h]
+\centering
+\begin{adjustbox}{width=7cm,height=5.5cm,clip,trim=0cm 0.5cm 0cm 0cm} 
+<<num_plot, echo=FALSE, fig=TRUE>>=
+box
+@
+\end{adjustbox}
+\caption{Money spent per country in Military stuff}  
+\label{num_plot} 
+\end{figure}
+
+%%%%% adding citation
+Boxplots were introduced by Tuckey \cite{tukey_exploratory_1977}.
+
+\section{Other plot}\label{otherPlots}
+\subsection{A map}\label{mapPlot}
+
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
+
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
+
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
+
+
+<<prepareMap, echo=FALSE>>=
+library(sf)
+fileMapPoints=file.path('DataFiles','calls911_geo.geojson')
+fileMapPolygons=file.path('DataFiles','Census_Tracts_2010.geojson')
+events=read_sf(fileMapPoints)
+city=read_sf(fileMapPolygons)
+
+
+base=ggplot(city) + geom_sf() + theme_light()
+eventsByTime=base + geom_sf(data = events,
+                         size=0.5,
+                         aes(color=nightTime)) 
+@
+
+\begin{figure}[h]
+\centering
+\begin{adjustbox}{width=10cm,height=10cm} 
+<<timeMap_plot, echo=FALSE, fig=TRUE>>=
+eventsByTime
+@
+\end{adjustbox}
+\caption{Calls to 911 by time of day.}  
+\label{timeMap_plot} 
+\end{figure}
+
+
+Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. 
+
+\subsection{A word cloud}\label{wordPlot}
+
+It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+
+<<dataForCloud, echo=FALSE>>=
+location=file.path('DataFiles','rebelData.csv')
+wordData=read.csv(location)
+
+library(tidyr)
+
+wordDataNames=separate_rows(wordData,StateName)
+stateCounts=as.data.frame(table(wordDataNames$StateName))
+names(stateCounts)=c("state","aCount")
+@
+
+<<theCloud_code, echo=FALSE>>=
+library(ggwordcloud)
+
+set.seed(123)
+base = ggplot(stateCounts, aes(label = state,
+                               size= aCount,
+                               color = aCount))
+cloudRebel= base + geom_text_wordcloud() + theme_minimal()
+
+cloudRebel= cloudRebel+scale_color_gradient(low = "orange",
+                                            high = "red") 
+@
+
+
+\begin{figure}[h]
+\centering
+\begin{adjustbox}{width=10cm,height=10cm,clip,trim=0cm 2cm 0cm 2cm} 
+<<cloud_plot, echo=FALSE, fig=TRUE>>=
+cloudRebel
+@
+\end{adjustbox}
+\caption{Nations by presence of rebel movements.}  
+\label{cloud_plot} 
+\end{figure}
+
+
+
+
+Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+
+It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. 
+
+It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. 
+
+\pagebreak
+
+\section{My Regression}\label{regre}
+
+Several times we need regression.
+
+<<regres, echo=FALSE>>=
+h1=formula(mili_pctGDP~DemocracyIndex)
+regre1=lm(h1,data=mergedData)
+
+h2=formula(mili_pctGDP~DemocracyIndex + IndexofEconomicFreedom)
+regre2=lm(h2,data=mergedData)
+@
+
+
+These is a nice summary for two regressions:
+
+<<regs1, echo=FALSE,results=tex>>=
+
+
+stargazer(regre1,regre2,
+          title = "Regression Models",
+          label = 'regs1')
+@
+
+
+You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:
+\pagebreak
+
+<<regs2, echo=FALSE,results=tex>>=
+stargazer(regre1,regre2,
+          title = "Regression Models",
+          dep.var.labels   = "Military Expenditure (percent of GDP)",
+          covariate.labels = c("Democracy", "Economic Freedom"),
+          label = 'regs2')
+@
+
+I hope you like what you see in the Table \ref{regs1} and in Table \ref{regs2}.
+
+\newpage
+%%%%% adding bibliography
+
+
+\bibliographystyle{apacite}
+%\renewcommand{\refname}{Bibliography}
+\bibliography{ZoteroExample}
+
+\end{document}
