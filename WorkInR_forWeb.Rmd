@@ -1,14 +1,19 @@
 ---
-title: "This is my work in R"
-abstract: 
+# This is page header
+title: "This is my work in R" 
+#date: '`r format(Sys.time(), "%B %d, %Y")`' #automatic
+date: "August 23, 2022" #manually
 
+#setup of webpage output
 output:
   bookdown::html_document2
-
-bibliography: ZoteroExample.bib
+  
+# for bibliography
+bibliography: FGVexample.bib
 csl: apa.csl
-
 ---
+
+<br> <!--this is a line break-->
 
 MyFirstName MyLastName
 
@@ -18,7 +23,7 @@ ThisIs UniversityName
 
 City, ZipCope, Country
 
-username@the.rest
+[username\@the.rest](mailto:username@the.rest){.email}
 
 date: August 23, 2022
 
@@ -30,36 +35,63 @@ This is an example of an abstract in a paper. This is an example of an abstract 
 
 ------------------------------------------------------------------------
 
-```{r, echo=FALSE}
+<!-- a chunk hidden (echo=FALSE) with some setup-->
+
+<!-- chunk has its own name -->
+
+```{r someSetup, echo=FALSE}
+# clean memory
+rm(list = ls())
+
+# for cropping figures
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
+
+# github data folder:
+where="https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/"
+
+
 ```
 
+<!-- use "-" to unnumber -->
 
-# Introduction
+# Introduction {.unnumbered}
 
-This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex. This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex. This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex. This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex.
+This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.
 
-This is just my intro to my nice paper, I will explain the cool things I can do with my new skills combined with some Latex.
+This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.This is just my intro to my nice paper. This is just my intro to my nice paper.
 
-# Exploring Data
+<!--label for crossref-->
 
-Sections may use a label ^[This is a footnote.] In fact, you can have a label wherever you think a future reference to that content might be needed. This label is needed for referencing. For example the next subsection has label **categs**, so you can reference it by writing: As we see in section \@ref(categs).
+# Exploring Tables {#explo-tables}
+
+<!--footnote coming-->
+
+Another section. I will use a footnot now [^1]. I will soon use cross-ref.I will soon use cross-ref.I will soon use cross-ref.I will soon use cross-ref. I will soon use cross-ref. I will soon use cross-ref.I will soon use cross-ref.I will soon use cross-ref.I will soon use cross-ref.I will soon use cross-ref. I will soon use cross-ref. I will soon use cross-ref.
+
+[^1]: This is a footnote.
+
+<!--cross-ref coming-->
+
+I will soon use cross-ref.I will soon use cross-ref: as we see in Section \@ref(catexplor).
 
 ```{r collecting, echo=FALSE}
-# collecting
-fileLink=url("https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/mergedData.RDS")
+fileLink=url(paste0(where,"mergedData.RDS"))
 mergedData=readRDS(fileLink)
 ```
 
-## Exploring Categorical Data{#categs}
+## Exploring Categorical Data {#catexplor}
 
 Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
 I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
-You can see the statistics of categorical variables in Table \@ref(tab:cat-exploreTable).
+You can see the statistics of categorical variables in Table \@ref(tab:catexploreTable).
 
-```{r cat-exploreTable,results='asis', warning=FALSE}
+<!--the chunk name  IS USED in cross-ref for TABLES, SEE above-->
+
+<!-- Table is created and displayed. -->
+
+```{r catexploreTable,results='asis', warning=FALSE, echo=FALSE}
 library(summarytools)
 library(tidyr)
 library(knitr)
@@ -67,15 +99,26 @@ library(kableExtra)
 
 freq(mergedData[, 9], 
      plain.ascii = FALSE,
-     report.nas=FALSE)%>%tb() %>%
-  kable(format = "html", digits = 2,caption = "This is a table",col.names = c("Democracy Index","count","pct","pct_cumm"))%>%
-  kable_styling(full_width = F)
+     report.nas=FALSE) %>%
+    ## changes, we need data frame
+    tb() %>%
+     kable(format = "html", 
+           digits = 2,
+           caption = "This is a table", #no label here
+           col.names = c("Democracy Index","count","pct","pct_cumm"))%>%
+     kable_styling(full_width = F)
 
 ```
 
 You can see this variable plotted in Figure \@ref(fig:cat-Barplot).
 
-```{r cat-Barplot, echo=FALSE, fig.cap="Freedom of Press in the world"}
+<!--Figure caption in chunk header is a MUST-->
+
+<!-- Object will be created and plotted -->
+
+<!--the chunk name is used in cross-ref for FIGURE-->
+
+```{r cat-Barplot, fig.cap="Freedom of Press in the world",echo=FALSE}
 tablePFI=as.data.frame(table(mergedData$PressFreedomIndex_or))
 names(tablePFI)=c("var","count")
 
@@ -84,27 +127,30 @@ library(ggplot2)
 base=ggplot(data=tablePFI,aes(x=var,y=count))
 bar1=base + geom_bar(stat = 'identity')
 bar1=bar1+labs(x="Press Freedom")
-
+##plotting
 bar1
 ```
 
-## Exploring Numerical Data
+## Exploring Numerical Data {#numexplo}
 
 Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
 Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
-```{r summary-Numeric, results='asis', echo=FALSE, message=FALSE}
-
+```{r summary-Numeric, results='asis', message=FALSE,echo=FALSE}
 library(vtable)
-st(mergedData[,c("DemocracyIndex","mili_pctGDP")])
+st(mergedData[,c("DemocracyIndex","mili_pctGDP")],
+   title ="Stat summary for nummeric vars",
+   digits = 2)
 ```
 
-In the Table \@ref(tab:summary-Numeric), you realize that the mean of military expenditure is **{**\bf\Sexpr{mean(mergedData$mili_pctGDP)}}.
+<!-- Use of R object inline -->
 
-It would be good to see a boxplot, check Figure \@ref(fig:num-Boxplot) below.
+In the Table \@ref(tab:summary-Numeric), you realize that the mean of military expenditure is **`r mean(mergedData$mili_pctGDP)`**.
 
-```{r num-Boxplot, echo=FALSE}
+It would be good to see a boxplot, check Figure \@ref(fig:numBoxplot) below.
+
+```{r numBoxplot,fig.cap='Money spent per country on Military stuff' ,echo=FALSE}
 base=ggplot(data=mergedData)
 box = base + geom_boxplot(aes(y=mili_pctGDP)) 
 box = box + labs(x="", y = "% of country GDP")
@@ -114,37 +160,49 @@ box=box + theme(axis.text.x = element_blank(),
 box
 ```
 
-Boxplots were introduced by Tuckey @tukey_exploratory_1977. Compare [@tukey_exploratory_1977] or [-@tukey_exploratory_1977]
+<!--- A citation: author(year) --->
 
-# Other plot
+Boxplots were introduced by Tuckey [-@tukey_exploratory_1977].
 
-## A map{#map}
+# My Regression
 
-Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
+Several times we need regression.
 
-Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
+```{r regres, echo=FALSE}
+h1=formula(mili_pctGDP~DemocracyIndex)
+regre1=lm(h1,data=mergedData)
 
-Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map in Figure \@ref(fig:map-Plot).
-
-```{r map-Plot, echo=FALSE, fig.cap="Calls to 911",message=FALSE}
-library(ggplot2)
-library(sf)
-fileMapPoints="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/calls911_geo.geojson"
-fileMapPolygons="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/MapSeattle.geojson"
-events=read_sf(fileMapPoints)
-city=read_sf(fileMapPolygons)
-
-
-base=ggplot(city) + geom_sf() + theme_light()
-eventsByTime=base + geom_sf(data = events,
-                         size=0.5,
-                         aes(color=nightTime)) 
-eventsByTime
+h2=formula(mili_pctGDP~DemocracyIndex + IndexofEconomicFreedom)
+regre2=lm(h2,data=mergedData)
 ```
 
-Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it.
+These is a nice summary for two regressions, as shown in Table \@ref(tab:regs1):
 
-## A word cloud{#wordPlot}
+```{r regs1, echo=FALSE}
+library(modelsummary)
+
+models=list(regre1,regre2)
+modelsummary(models, title = "Models for Military Expenditure",
+             stars = TRUE,
+             output = "kableExtra")
+```
+
+You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:
+
+```{r regs2, echo=FALSE,results='asis'}
+cm <- c('DemocracyIndex'='Democracy Index','IndexofEconomicFreedom'    = 'Economic Freedom','(Intercept)' = 'Constant')
+
+modelsummary(models, title = "Models for Military Expenditure",
+             stars = TRUE,
+             output = "kableExtra",coef_map = cm)
+
+```
+
+I hope you like what you see in the Table \@ref(tab:regs1) and in Table \@ref(tab:regs2). You can learn more on regression in other book [@petrie_introduction_2016,150-160].
+
+# Other plots {#otherPlots}
+
+## A word cloud {#wordPlot}
 
 Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud. Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.
 
@@ -174,48 +232,42 @@ cloudRebel= cloudRebel+scale_color_gradient(low = "orange",
 cloudRebel
 ```
 
-Above you see our Figure \@ref(fig:theCloud-plot) Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+Above you see our Figure \@ref(fig:theCloud-plot). Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
 It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it.
 
 It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it.
 
-# My Regression
+You can read something interesting [@lipman_art_2022].
 
-Several times we need regression.
+## A map {#map}
 
-```{r regres, echo=FALSE}
-h1=formula(mili_pctGDP~DemocracyIndex)
-regre1=lm(h1,data=mergedData)
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
 
-h2=formula(mili_pctGDP~DemocracyIndex + IndexofEconomicFreedom)
-regre2=lm(h2,data=mergedData)
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
+
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map in Figure \@ref(fig:map-Plot).
+
+```{r map-Plot, echo=FALSE, fig.cap="Calls to 911",message=FALSE}
+library(ggplot2)
+library(sf)
+fileMapPoints="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/calls911_geo.geojson"
+fileMapPolygons="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/MapSeattle.geojson"
+events=read_sf(fileMapPoints)
+city=read_sf(fileMapPolygons)
+
+
+base=ggplot(city) + geom_sf() + theme_light()
+eventsByTime=base + geom_sf(data = events,
+                         size=0.5,
+                         aes(color=nightTime)) 
+eventsByTime
 ```
 
-These is a nice summary for two regressions, as shown in Table \@ref(tab:regs1):
+Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it.
 
-```{r regs1, echo=FALSE}
+<!--- more than one author in a citation --->
 
-library(modelsummary)
-
-models=list(regre1,regre2)
-modelsummary(models, title = "Models for Military Expenditure",
-             stars = TRUE,
-             output = "kableExtra")
-```
-
-You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:
-
-```{r stargazer2, echo=FALSE,results='asis'}
-cm <- c('DemocracyIndex'='Democracy Index','IndexofEconomicFreedom'    = 'Economic Freedom','(Intercept)' = 'Constant')
-
-modelsummary(models, title = "Models for Military Expenditure",
-             stars = TRUE,
-             output = "kableExtra",coef_map = cm)
-
-```
-
-I hope you like what you see in the Table \@ref(tab:regs1) and in Table \@ref(tab:regs2). 
+Review other authors [@camara_spatial_nodate, 120-150; also, see @brunsdon_introduction_2015] to know more.
 
 # Bibliography
-

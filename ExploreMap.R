@@ -4,8 +4,8 @@
 
 library(ggplot2)
 library(sf)
-fileMapPoints="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/calls911_geo.geojson"
-fileMapPolygons="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/MapSeattle.geojson"
+fileMapPoints="https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/calls911_geo.geojson"
+fileMapPolygons="https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/MapSeattle.geojson"
 events=read_sf(fileMapPoints)
 city=read_sf(fileMapPolygons)
 

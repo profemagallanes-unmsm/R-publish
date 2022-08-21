@@ -26,9 +26,10 @@
 
 
 % every "begin: needs and "end"
+\usepackage{Sweave}
 \begin{document}
 
-\SweaveOpts{concordance=TRUE}
+\input{WorkInR_forPrinter-concordance}
 \maketitle 
 
 \begin{abstract}
@@ -38,13 +39,6 @@ This is an example of an abstract in a paper. This is an example of an abstract 
 
 % a chunk hidden (echo=FALSE) with some setup
 % chunk has its own name 
-<<someSetup, echo=FALSE>>=
-# clean memory
-rm(list = ls())
-
-# github data folder:
-where="https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/"
-@
 
 
 \section*{Introduction} % * to unnumber
@@ -64,10 +58,6 @@ Another section. I will use a footnot now \footnote{This is a footnote.}. I will
 I will soon use cross-ref.I will soon use cross-ref: as we see in Section \ref{catexplor}.
 
 
-<<collecting, echo=FALSE>>=
-fileLink=url(paste0(where,"mergedData.RDS"))
-mergedData=readRDS(fileLink)
-@
 
 \subsection{Exploring Categorical Data}\label{catexplor}
 
@@ -80,24 +70,26 @@ You can see the statistics of a categorical variable in Table \ref{catexploreTab
 %the chunk name is NOT used in cross-ref for table.
 %Table is created and displayed.
 
-<<catexploreTable,results=tex,echo=FALSE>>=
-library(summarytools)
-library(tidyr)
-library(knitr)
-library(kableExtra)
+\begin{table}
 
-freq(mergedData[, 9], 
-     plain.ascii = FALSE,
-     report.nas=FALSE) %>%
-    ## changes, we need data frame
-    tb() %>%
-     kable(format = "latex", 
-           digits = 2,#label cross-ref!!
-           caption = "This is a table\\label{catexploreTable}",
-           col.names = c("Democracy Index","count","pct","pct_cumm"))%>%
-    kable_styling(full_width = F)
-@
-
+\caption{This is a table\label{catexploreTable}}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Democracy Index & count & pct & pct\_cumm\\
+\hline
+veryLow & 53 & 33.76 & 33.76\\
+\hline
+low & 31 & 19.75 & 53.50\\
+\hline
+medium & 53 & 33.76 & 87.26\\
+\hline
+good & 0 & 0.00 & 87.26\\
+\hline
+veryGood & 20 & 12.74 & 100.00\\
+\hline
+\end{tabular}
+\end{table}
 
 
 %%%%%%
@@ -108,24 +100,12 @@ You can see this variable plotted in Figure \ref{cat_barplot} on page \pageref{c
 % Object will be created BUT NOT plotted
 % the chunk name IS NOT used in cross-ref for figure
 
-<<prepare_cat_plot, echo=FALSE>>=
-tablePFI=as.data.frame(table(mergedData$PressFreedomIndex_or))
-names(tablePFI)=c("var","count")
-
-##
-library(ggplot2)
-base=ggplot(data=tablePFI,aes(x=var,y=count))
-bar1=base + geom_bar(stat = 'identity')
-bar1=bar1+labs(x="Press Freedom")
-@
 
 % Latex will use this code for plotting
 \begin{figure}[h]
 \centering
 \begin{adjustbox}{width=7cm,height=5cm} %resize
-<<cat_barplot, echo=FALSE, fig=TRUE>>=
-bar1
-@
+\includegraphics{WorkInR_forPrinter-cat_barplot}
 \end{adjustbox}
 \caption{Press Freedom Index in the World}  %title
 \label{cat_barplot} % for cross-ref
@@ -139,36 +119,33 @@ Here, I continue doing this nice work, I hope you like it and read it. It has be
 
 Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
-<<summaryNumeric, results=tex, echo=FALSE>>=
-library(stargazer)
-stargazer(mergedData[,c("DemocracyIndex","mili_pctGDP")],
-          title = "Stat summary for nummeric vars", 
-          label = "summaryNumeric",# cross-ref
-          font.size = 'footnotesize',
-          digits = 2,
-          summary.stat = c("n","mean",'sd',"min",'p25','p75','max'))
-@
-
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sat, Aug 20, 2022 - 21:14:16
+\begin{table}[!htbp] \centering 
+  \caption{Stat summary for nummeric vars} 
+  \label{summaryNumeric} 
+\footnotesize 
+\begin{tabular}{@{\extracolsep{5pt}}lccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Pctl(25)} & \multicolumn{1}{c}{Pctl(75)} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+DemocracyIndex & 157 & 2.38 & 1.30 & 1 & 1 & 3 & 5 \\ 
+mili\_pctGDP & 166 & 2.07 & 1.55 & 0.20 & 1.10 & 2.48 & 10.00 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 % Use of R object inline
-In the Table \ref{summaryNumeric}, you realize that the mean of military expenditure is {\bf\Sexpr{mean(mergedData$mili_pctGDP)}}.
+In the Table \ref{summaryNumeric}, you realize that the mean of military expenditure is {\bf2.07228915662651}.
 
 It would be good to see a boxplot, check Figure \ref{num_plot} below.
 
-<<prepare_num_plot, echo=FALSE>>=
-base=ggplot(data=mergedData)
-box = base + geom_boxplot(aes(y=mili_pctGDP)) 
-box = box + labs(x="", y = "% of country GDP")
-box=box + theme(axis.text.x = element_blank(),
-                axis.ticks.x = element_blank())
-@
 
 
 \begin{figure}[h]
 \centering
 \begin{adjustbox}{width=7cm,height=5.5cm,clip,trim=0cm 0.5cm 0cm 0cm} 
-<<num_plot, echo=FALSE, fig=TRUE>>=
-box
-@
+\includegraphics{WorkInR_forPrinter-num_plot}
 \end{adjustbox}
 \caption{Money spent per country on Military stuff}  
 \label{num_plot} 
@@ -183,37 +160,80 @@ Boxplots were introduced by \citet{tukey_exploratory_1977}.
 
 Several times we need regression.
 
-<<regres, echo=FALSE>>=
-h1=formula(mili_pctGDP~DemocracyIndex)
-regre1=lm(h1,data=mergedData)
-
-h2=formula(mili_pctGDP~DemocracyIndex + IndexofEconomicFreedom)
-regre2=lm(h2,data=mergedData)
-@
 
 
 These is a nice summary for two regressions:
 
-<<regs1, echo=FALSE,results=tex>>=
-
-
-stargazer(regre1,regre2,
-          title = "Regression Models",
-          label = 'regs1')
-@
-
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sat, Aug 20, 2022 - 21:14:16
+\begin{table}[!htbp] \centering 
+  \caption{Regression Models} 
+  \label{regs1} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-3} 
+\\[-1.8ex] & \multicolumn{2}{c}{mili\_pctGDP} \\ 
+\\[-1.8ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ DemocracyIndex & $-$0.423$^{***}$ & $-$0.535$^{***}$ \\ 
+  & (0.090) & (0.128) \\ 
+  & & \\ 
+ IndexofEconomicFreedom &  & 0.230 \\ 
+  &  & (0.149) \\ 
+  & & \\ 
+ Constant & 3.083$^{***}$ & 2.730$^{***}$ \\ 
+  & (0.245) & (0.291) \\ 
+  & & \\ 
+\hline \\[-1.8ex] 
+Observations & 157 & 154 \\ 
+R$^{2}$ & 0.124 & 0.126 \\ 
+Adjusted R$^{2}$ & 0.119 & 0.114 \\ 
+Residual Std. Error & 1.464 (df = 155) & 1.434 (df = 151) \\ 
+F Statistic & 22.008$^{***}$ (df = 1; 155) & 10.857$^{***}$ (df = 2; 151) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
 
 You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:
 \pagebreak
 
-<<regs2, echo=FALSE,results=tex>>=
-stargazer(regre1,regre2,
-          title = "Regression Models",
-          dep.var.labels   = "Military Expenditure (percent of GDP)",
-          covariate.labels = c("Democracy", "Economic Freedom"),
-          label = 'regs2')
-@
-
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sat, Aug 20, 2022 - 21:14:16
+\begin{table}[!htbp] \centering 
+  \caption{Regression Models} 
+  \label{regs2} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-3} 
+\\[-1.8ex] & \multicolumn{2}{c}{Military Expenditure (percent of GDP)} \\ 
+\\[-1.8ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ Democracy & $-$0.423$^{***}$ & $-$0.535$^{***}$ \\ 
+  & (0.090) & (0.128) \\ 
+  & & \\ 
+ Economic Freedom &  & 0.230 \\ 
+  &  & (0.149) \\ 
+  & & \\ 
+ Constant & 3.083$^{***}$ & 2.730$^{***}$ \\ 
+  & (0.245) & (0.291) \\ 
+  & & \\ 
+\hline \\[-1.8ex] 
+Observations & 157 & 154 \\ 
+R$^{2}$ & 0.124 & 0.126 \\ 
+Adjusted R$^{2}$ & 0.119 & 0.114 \\ 
+Residual Std. Error & 1.464 (df = 155) & 1.434 (df = 151) \\ 
+F Statistic & 22.008$^{***}$ (df = 1; 155) & 10.857$^{***}$ (df = 2; 151) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
 I hope you like what you see in the Table \ref{regs1} and in Table \ref{regs2}. You can learn more on regression in other book \citep[150-160]{petrie_introduction_2016}
 
 %%%%
@@ -225,37 +245,13 @@ I hope you like what you see in the Table \ref{regs1} and in Table \ref{regs2}. 
 
 Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud. Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.
 
-<<dataForCloud, echo=FALSE>>=
-location=paste0(where,'rebelData.csv')
-wordData=read.csv(location)
 
-library(tidyr)
-
-wordDataNames=separate_rows(wordData,StateName)
-stateCounts=as.data.frame(table(wordDataNames$StateName))
-names(stateCounts)=c("state","aCount")
-@
-
-<<theCloud_code, echo=FALSE>>=
-library(ggwordcloud)
-
-set.seed(123)
-base = ggplot(stateCounts, aes(label = state,
-                               size= aCount,
-                               color = aCount))
-cloudRebel= base + geom_text_wordcloud() + theme_minimal()
-
-cloudRebel= cloudRebel+scale_color_gradient(low = "orange",
-                                            high = "red") 
-@
 
 
 \begin{figure}[h]
 \centering
 \begin{adjustbox}{width=10cm,height=10cm,clip,trim=0cm 2cm 0cm 2cm} 
-<<cloud_plot, echo=FALSE, fig=TRUE>>=
-cloudRebel
-@
+\includegraphics{WorkInR_forPrinter-cloud_plot}
 \end{adjustbox}
 \caption{Nations by presence of rebel movements.}  
 \label{cloud_plot} 
@@ -279,26 +275,11 @@ Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show
 Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
 
 
-<<prepareMap, echo=FALSE>>=
-library(sf)
-fileMapPoints=paste0(where,"calls911_geo.geojson")
-fileMapPolygons=paste0(where,"MapSeattle.geojson")
-events=read_sf(fileMapPoints)
-city=read_sf(fileMapPolygons)
-
-
-base=ggplot(city) + geom_sf() + theme_light()
-eventsByTime=base + geom_sf(data = events,
-                         size=0.5,
-                         aes(color=nightTime)) 
-@
 
 \begin{figure}[h]
 \centering
 \begin{adjustbox}{width=10cm,height=10cm} 
-<<timeMap_plot, echo=FALSE, fig=TRUE>>=
-eventsByTime
-@
+\includegraphics{WorkInR_forPrinter-timeMap_plot}
 \end{adjustbox}
 \caption{Calls to 911 by time of day.}  
 \label{timeMap_plot} 

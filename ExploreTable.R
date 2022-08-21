@@ -1,6 +1,6 @@
 
 # get data ----------------------------------------------------------------
-fileLink=url("https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/mergedData.RDS")
+fileLink=url("https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/mergedData.RDS")
 mergedData=readRDS(fileLink)
 
 

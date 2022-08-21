@@ -1,6 +1,6 @@
 # read the file -----------------------------------------------------------
 
-location="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/rebelData.csv"
+location="https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/rebelData.csv"
 wordData=read.csv(location)
 
 
