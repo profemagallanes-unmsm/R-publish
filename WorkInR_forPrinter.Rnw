@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[a4paper, 12pt]{article}
 
 %% for bibliography
 \usepackage[natbibapa]{apacite}
@@ -16,8 +16,7 @@
 \title{This is my work in R}
 \author{
         MyFirstName MyLastName\\
-        ThisIs mySchoolProgramName\\
-        ThisIs UniversityName\\
+        OrganizationName\\
         City, ZipCope, \underline{Country}\\
         \texttt{username@the.rest}
 }

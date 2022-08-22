@@ -1,8 +1,12 @@
 ---
 # This is page header
 title: "This is my work in R" 
+author: "MyFirstName MyLastName, OrganizationName, username@the.rest"
 #date: '`r format(Sys.time(), "%B %d, %Y")`' #automatic
 date: "August 23, 2022" #manually
+abstract: "This is an example of an abstract in a paper. This is an example of an abstract in a paper.This is an example of an abstract in a paper. This is an example of an abstract in a paper.This is an example of an abstract in a paper.This is an example of an abstract in a paper.This is an example of an abstract in a paper."
+
+fontsize: 12pt
 
 #setup of webpage output
 output:
@@ -10,30 +14,12 @@ output:
   
 # for bibliography
 bibliography: FGVexample.bib
-csl: apa.csl
+biblio-style: apalike
+#csl: apa.csl
 ---
 
 <br> <!--this is a line break-->
 
-MyFirstName MyLastName
-
-ThisIs mySchoolProgramName
-
-ThisIs UniversityName
-
-City, ZipCope, Country
-
-[username\@the.rest](mailto:username@the.rest){.email}
-
-date: August 23, 2022
-
-------------------------------------------------------------------------
-
-Abstract
-
-This is an example of an abstract in a paper. This is an example of an abstract in a paper.This is an example of an abstract in a paper. This is an example of an abstract in a paper.This is an example of an abstract in a paper.This is an example of an abstract in a paper.This is an example of an abstract in a paper.
-
-------------------------------------------------------------------------
 
 <!-- a chunk hidden (echo=FALSE) with some setup-->
 
@@ -188,7 +174,8 @@ This is a nice summary for two regressions, as shown in Table \@ref(tab:regs1):
 library(modelsummary)
 
 models=list(regre1,regre2)
-modelsummary(models, title = "Models for Military Expenditure",
+modelsummary(models, 
+             title = "Models for Military Expenditure",
              stars = TRUE,
              output = "kableExtra")
 ```
@@ -197,12 +184,13 @@ You can also do this: You can also do this:You can also do this:You can also do 
 
 ```{r regs2, echo=FALSE,results='asis'}
 ## show result of both BETTER
-cm <- c('DemocracyIndex'='Democracy','IndexofEconomicFreedom'    = 'Economic Freedom','(Intercept)' = 'Constant')
-
-modelsummary(models, title = "Models for Military Expenditure",
+cm <- c('DemocracyIndex'='Democracy',
+        'IndexofEconomicFreedom'= 'Economic Freedom',
+        '(Intercept)' = 'Constant')
+modelsummary(models, 
+             title = "Models for Military Expenditure",
              stars = TRUE,
              output = "kableExtra",coef_map = cm)
-
 ```
 
 I hope you like what you see in the Table \@ref(tab:regs1) and in Table \@ref(tab:regs2). You can learn more on regression in other book [@petrie_introduction_2016,150-160].
@@ -284,7 +272,7 @@ Review other authors
 also, see @brunsdon_introduction_2015]
 to know more.
 
-# Bibliography
+# Bibliography{-}
 <!--
 <div id="refs"></div>
 -->
