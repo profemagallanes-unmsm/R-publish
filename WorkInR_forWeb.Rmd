@@ -42,14 +42,13 @@ This is an example of an abstract in a paper. This is an example of an abstract 
 ```{r someSetup, echo=FALSE}
 # clean memory
 rm(list = ls())
-
 # for cropping figures
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 
 # github data folder:
-where="https://github.com/profemagallanes-unmsm/FGV_Python_prepublish/raw/main/DataFiles/"
-
-
+link1="https://github.com/profemagallanes-unmsm/"
+link2="FGV_Python_prepublish/raw/main/DataFiles/"
+where=paste0(link1,link2)
 ```
 
 <!-- use "-" to unnumber -->
@@ -74,7 +73,7 @@ Another section. I will use a footnot now [^1]. I will soon use cross-ref.I will
 
 I will soon use cross-ref.I will soon use cross-ref: as we see in Section \@ref(catexplor).
 
-```{r collecting, echo=FALSE}
+```{r collecting_DataTable, echo=FALSE}
 fileLink=url(paste0(where,"mergedData.RDS"))
 mergedData=readRDS(fileLink)
 ```
@@ -92,11 +91,13 @@ You can see the statistics of categorical variables in Table \@ref(tab:catexplor
 <!-- Table is created and displayed. -->
 
 ```{r catexploreTable,results='asis', warning=FALSE, echo=FALSE}
+## display frequency table of Freedom Index
 library(summarytools)
 library(tidyr)
 library(knitr)
 library(kableExtra)
 
+namesHeaders=c("Democracy Index","count","pct","pct_cumm")
 freq(mergedData[, 9], 
      plain.ascii = FALSE,
      report.nas=FALSE) %>%
@@ -105,12 +106,11 @@ freq(mergedData[, 9],
      kable(format = "html", 
            digits = 2,
            caption = "This is a table", #no label here
-           col.names = c("Democracy Index","count","pct","pct_cumm"))%>%
+           col.names = namesHeaders)%>%
      kable_styling(full_width = F)
-
 ```
 
-You can see this variable plotted in Figure \@ref(fig:cat-Barplot).
+You can see this variable plotted in Figure \@ref(fig:catBarplot).
 
 <!--Figure caption in chunk header is a MUST-->
 
@@ -118,13 +118,16 @@ You can see this variable plotted in Figure \@ref(fig:cat-Barplot).
 
 <!--the chunk name is used in cross-ref for FIGURE-->
 
-```{r cat-Barplot, fig.cap="Freedom of Press in the world",echo=FALSE}
-tablePFI=as.data.frame(table(mergedData$PressFreedomIndex_or))
-names(tablePFI)=c("var","count")
+```{r prepare_catBarplot,echo=FALSE}
+## prepare frequency table as data frame
+theTable_Free=table(mergedData$PressFreedomIndex_or)
+theTable_Free_asDF=as.data.frame(theTable_Free)
+names(theTable_Free_asDF)=c("var","count") #renaming
+```
 
-##
+```{r catBarplot, fig.cap="Freedom of Press in the world",echo=FALSE}
 library(ggplot2)
-base=ggplot(data=tablePFI,aes(x=var,y=count))
+base=ggplot(data=theTable_Free_asDF,aes(x=var,y=count))
 bar1=base + geom_bar(stat = 'identity')
 bar1=bar1+labs(x="Press Freedom")
 ##plotting
@@ -137,7 +140,8 @@ Here, I continue doing this nice work, I hope you like it and read it. It has be
 
 Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
-```{r summary-Numeric, results='asis', message=FALSE,echo=FALSE}
+```{r summaryNumeric, results='asis', message=FALSE,echo=FALSE}
+## table of summary statistics
 library(vtable)
 st(mergedData[,c("DemocracyIndex","mili_pctGDP")],
    title ="Stat summary for nummeric vars",
@@ -146,7 +150,7 @@ st(mergedData[,c("DemocracyIndex","mili_pctGDP")],
 
 <!-- Use of R object inline -->
 
-In the Table \@ref(tab:summary-Numeric), you realize that the mean of military expenditure is **`r mean(mergedData$mili_pctGDP)`**.
+In the Table \@ref(tab:summaryNumeric), you realize that the mean of military expenditure is **`r mean(mergedData$mili_pctGDP)`**.
 
 It would be good to see a boxplot, check Figure \@ref(fig:numBoxplot) below.
 
@@ -156,19 +160,20 @@ box = base + geom_boxplot(aes(y=mili_pctGDP))
 box = box + labs(x="", y = "% of country GDP")
 box=box + theme(axis.text.x = element_blank(),
                 axis.ticks.x = element_blank())
-
+## plotting
 box
 ```
 
 <!--- A citation: author(year) --->
 
-Boxplots were introduced by Tuckey [-@tukey_exploratory_1977].
+Boxplots were introduced by [@tukey_exploratory_1977].
 
 # My Regression
 
 Several times we need regression.
 
-```{r regres, echo=FALSE}
+```{r regresPrep, echo=FALSE}
+## prepare regressions
 h1=formula(mili_pctGDP~DemocracyIndex)
 regre1=lm(h1,data=mergedData)
 
@@ -176,9 +181,10 @@ h2=formula(mili_pctGDP~DemocracyIndex + IndexofEconomicFreedom)
 regre2=lm(h2,data=mergedData)
 ```
 
-These is a nice summary for two regressions, as shown in Table \@ref(tab:regs1):
+This is a nice summary for two regressions, as shown in Table \@ref(tab:regs1):
 
-```{r regs1, echo=FALSE}
+```{r regs1,results='asis', echo=FALSE}
+## show result of both
 library(modelsummary)
 
 models=list(regre1,regre2)
@@ -190,7 +196,8 @@ modelsummary(models, title = "Models for Military Expenditure",
 You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:You can also do this: You can also do this:You can also do this:
 
 ```{r regs2, echo=FALSE,results='asis'}
-cm <- c('DemocracyIndex'='Democracy Index','IndexofEconomicFreedom'    = 'Economic Freedom','(Intercept)' = 'Constant')
+## show result of both BETTER
+cm <- c('DemocracyIndex'='Democracy','IndexofEconomicFreedom'    = 'Economic Freedom','(Intercept)' = 'Constant')
 
 modelsummary(models, title = "Models for Military Expenditure",
              stars = TRUE,
@@ -206,18 +213,20 @@ I hope you like what you see in the Table \@ref(tab:regs1) and in Table \@ref(ta
 
 Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud. Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.Let me show a nice word cloud.
 
-```{r dataForCloud, echo=FALSE}
-location="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/rebelData.csv"
+```{r collecting_DataForCloud, echo=FALSE}
+location=paste0(where,'rebelData.csv')
 wordData=read.csv(location)
+```
 
+```{r prepareDataForCloud, echo=FALSE}
 library(tidyr)
-
-wordDataNames=separate_rows(wordData,StateName)
+wordDataNames=separate_rows(wordData,StateName) # key process
 stateCounts=as.data.frame(table(wordDataNames$StateName))
 names(stateCounts)=c("state","aCount")
 ```
 
-```{r theCloud-plot, echo=FALSE, fig.cap="States and rebel movements",crop=TRUE}
+
+```{r theCloudPlot, echo=FALSE, fig.cap="Nations by presence of rebel movements.",crop=TRUE}
 library(ggwordcloud)
 
 set.seed(123)
@@ -225,20 +234,18 @@ base = ggplot(stateCounts, aes(label = state,
                                size= aCount,
                                color = aCount))
 cloudRebel= base + geom_text_wordcloud() + theme_minimal()
-
 cloudRebel= cloudRebel+scale_color_gradient(low = "orange",
                                             high = "red") 
-
 cloudRebel
 ```
 
-Above you see our Figure \@ref(fig:theCloud-plot). Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
+Above you see our Figure \@ref(fig:theCloudPlot). Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.
 
 It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it.
 
 It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it. It has been a very hard work.Here, I continue doing this nice work, I hope you like it and read it.
 
-You can read something interesting [@lipman_art_2022].
+You can read something interesting somewhere else [@lipman_art_2022].
 
 ## A map {#map}
 
@@ -246,16 +253,20 @@ Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show
 
 Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.
 
-Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map in Figure \@ref(fig:map-Plot).
+Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map.Let me show a nice map in Figure \@ref(fig:theMapPlot).
 
-```{r map-Plot, echo=FALSE, fig.cap="Calls to 911",message=FALSE}
+```{r collecting_DataMap, echo=FALSE,message=FALSE}
+fileMapPoints=paste0(where,"calls911_geo.geojson")
+fileMapPolygons=paste0(where,"MapSeattle.geojson")
+
 library(ggplot2)
 library(sf)
-fileMapPoints="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/calls911_geo.geojson"
-fileMapPolygons="https://github.com/profemagallanes-unmsm/FGV2022_rio/raw/main/DataFiles/MapSeattle.geojson"
 events=read_sf(fileMapPoints)
 city=read_sf(fileMapPolygons)
+```
 
+
+```{r theMapPlot, echo=FALSE, fig.cap="Calls to 911 by time of day",message=FALSE}
 
 base=ggplot(city) + geom_sf() + theme_light()
 eventsByTime=base + geom_sf(data = events,
@@ -268,6 +279,12 @@ Here, I continue doing this nice work, I hope you like it and read it. It has be
 
 <!--- more than one author in a citation --->
 
-Review other authors [@camara_spatial_nodate, 120-150; also, see @brunsdon_introduction_2015] to know more.
+Review other authors 
+[@camara_spatial_nodate, 120-150;
+also, see @brunsdon_introduction_2015]
+to know more.
 
 # Bibliography
+<!--
+<div id="refs"></div>
+-->

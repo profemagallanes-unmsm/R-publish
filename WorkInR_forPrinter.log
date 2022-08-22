@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  20 AUG 2022 21:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  22 AUG 2022 15:42
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -345,95 +345,87 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<WorkInR_forPrinter-cat_barplot.pdf, id=14, 433.62pt x 433.62pt>
-File: WorkInR_forPrinter-cat_barplot.pdf Graphic file (type pdf)
+<WorkInR_forPrinter-catBarplot.pdf, id=14, 433.62pt x 433.62pt>
+File: WorkInR_forPrinter-catBarplot.pdf Graphic file (type pdf)
 
-<use WorkInR_forPrinter-cat_barplot.pdf>
-Package pdftex.def Info: WorkInR_forPrinter-cat_barplot.pdf used on input line 
-108.
+<use WorkInR_forPrinter-catBarplot.pdf>
+Package pdftex.def Info: WorkInR_forPrinter-catBarplot.pdf used on input line 1
+07.
 (pdftex.def)             Requested size: 288.0011pt x 288.01624pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [2]
-Overfull \hbox (6.49783pt too wide) in paragraph at lines 128--137
+Overfull \hbox (6.49783pt too wide) in paragraph at lines 127--136
  [][] 
  []
 
-<WorkInR_forPrinter-num_plot.pdf, id=22, 433.62pt x 433.62pt>
-File: WorkInR_forPrinter-num_plot.pdf Graphic file (type pdf)
+<WorkInR_forPrinter-numBoxplot.pdf, id=22, 433.62pt x 433.62pt>
+File: WorkInR_forPrinter-numBoxplot.pdf Graphic file (type pdf)
 
-<use WorkInR_forPrinter-num_plot.pdf>
-Package pdftex.def Info: WorkInR_forPrinter-num_plot.pdf used on input line 148
-.
+<use WorkInR_forPrinter-numBoxplot.pdf>
+Package pdftex.def Info: WorkInR_forPrinter-numBoxplot.pdf used on input line 1
+46.
 (pdftex.def)             Requested size: 288.0011pt x 288.01624pt.
- [3 <./WorkInR_forPrinter-cat_barplot.pdf>]
-Overfull \hbox (20.4444pt too wide) in paragraph at lines 172--199
+ [3 <./WorkInR_forPrinter-catBarplot.pdf>]
+Overfull \hbox (20.4444pt too wide) in paragraph at lines 170--197
  [][] 
  []
 
-[4 <./WorkInR_forPrinter-num_plot.pdf>] [5]
-<WorkInR_forPrinter-cloud_plot.pdf, id=48, 433.62pt x 433.62pt>
-File: WorkInR_forPrinter-cloud_plot.pdf Graphic file (type pdf)
+[4 <./WorkInR_forPrinter-numBoxplot.pdf>] [5]
+<WorkInR_forPrinter-theCloudPlot.pdf, id=48, 433.62pt x 433.62pt>
+File: WorkInR_forPrinter-theCloudPlot.pdf Graphic file (type pdf)
 
-<use WorkInR_forPrinter-cloud_plot.pdf>
-Package pdftex.def Info: WorkInR_forPrinter-cloud_plot.pdf used on input line 2
-54.
+<use WorkInR_forPrinter-theCloudPlot.pdf>
+Package pdftex.def Info: WorkInR_forPrinter-theCloudPlot.pdf used on input line
+ 253.
 (pdftex.def)             Requested size: 288.0011pt x 288.01624pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+[6] [7 <./WorkInR_forPrinter-theCloudPlot.pdf>]
+<WorkInR_forPrinter-theMapPlot.pdf, id=61, 433.62pt x 433.62pt>
+File: WorkInR_forPrinter-theMapPlot.pdf Graphic file (type pdf)
 
-LaTeX Warning: Reference `theCloud-plot' on page 6 undefined on input line 261.
-
-
-[6] [7 <./WorkInR_forPrinter-cloud_plot.pdf>]
-<WorkInR_forPrinter-timeMap_plot.pdf, id=61, 433.62pt x 433.62pt>
-File: WorkInR_forPrinter-timeMap_plot.pdf Graphic file (type pdf)
-
-<use WorkInR_forPrinter-timeMap_plot.pdf>
-Package pdftex.def Info: WorkInR_forPrinter-timeMap_plot.pdf used on input line
- 282.
+<use WorkInR_forPrinter-theMapPlot.pdf>
+Package pdftex.def Info: WorkInR_forPrinter-theMapPlot.pdf used on input line 2
+81.
 (pdftex.def)             Requested size: 288.0011pt x 288.01624pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[8] (./WorkInR_forPrinter.bbl) [9 <./WorkInR_forPrinter-timeMap_plot.pdf>]
-(./WorkInR_forPrinter.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+[8] (./WorkInR_forPrinter.bbl) [9 <./WorkInR_forPrinter-theMapPlot.pdf>]
+(./WorkInR_forPrinter.aux) ) 
 Here is how much of TeX's memory you used:
- 4236 strings out of 493089
- 62057 string characters out of 6134842
+ 4235 strings out of 493089
+ 62054 string characters out of 6134842
  123435 words of memory out of 5000000
- 7623 multiletter control sequences out of 15000+600000
+ 7622 multiletter control sequences out of 15000+600000
  18443 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,9n,35p,989b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></us
-r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
-/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/loc
-al/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local
-/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/t
-exlive/2015/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/tex
-live/2015/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texli
-ve/2015/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive
-/2015/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2
-015/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/201
-5/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2015/
-texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2015/te
-xmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2015/texm
-f-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2015/texmf-
-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on WorkInR_forPrinter.pdf (9 pages, 561107 bytes).
+ 40i,9n,35p,985b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips
+/cm-super/cm-super-t1.enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsy8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-su
+per/sfbx1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-supe
+r/sfbx1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/
+sfbx1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sf
+bx1440.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm
+0600.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm08
+00.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm0900
+.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm1000.p
+fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></u
+sr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr
+/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on WorkInR_forPrinter.pdf (9 pages, 560930 bytes).
 PDF statistics:
  129 PDF objects out of 1000 (max. 8388607)
  91 compressed objects within 1 object stream
